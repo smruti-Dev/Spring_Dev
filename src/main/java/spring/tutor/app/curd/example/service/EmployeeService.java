@@ -32,6 +32,10 @@ public class EmployeeService {
 	public Employees save(Employees employee) {
 		return employeeRepository.save(employee);
 	}
+	
+	public Iterable<Employees> saveAll(List<Employees> employee) {
+		return employeeRepository.saveAll(employee);
+	}
 
 	public ResponseEntity<Employees> updateEmployee(@PathVariable(value = "id") Long employeeId,
 			@RequestBody Employees employeeDetails) throws ResourceNotFoundException {

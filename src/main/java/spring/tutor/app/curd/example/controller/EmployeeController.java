@@ -39,6 +39,11 @@ public class EmployeeController {
 	public Employees createEmployee(@RequestBody Employees employees) {
 		return employeeService.save(employees);
 	}
+	
+	@PostMapping("/createemps")
+	public Iterable<Employees> createEmployees(@RequestBody List<Employees> employees) {
+		return employeeService.saveAll(employees);
+	}
 
 	@PutMapping("/employees/{id}")
 	public ResponseEntity<Employees> updateEmployee(@PathVariable(value = "id") Long employeeId,

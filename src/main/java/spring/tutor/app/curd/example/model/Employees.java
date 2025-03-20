@@ -2,6 +2,8 @@ package spring.tutor.app.curd.example.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,14 +19,16 @@ import lombok.NoArgsConstructor;
 public class Employees {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", unique = true, nullable = false, precision = 10)
 	private long id;
-	@Column(name="first_name")
+	@Column(name="first_name", nullable = false)
 	private String firstName;
-	@Column(name="last_name")
+	@Column(name="last_name", nullable = false)
 	private String lastName;
-	@Column(name="email_id")
+	@Column(name="email_id", nullable = false)
 	private String emailId;
-	@Column(name="age")
+	@Column(name="age", nullable = false)
 	private int age;
 	
 	
