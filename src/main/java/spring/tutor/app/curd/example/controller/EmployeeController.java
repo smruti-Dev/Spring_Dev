@@ -3,8 +3,11 @@ package spring.tutor.app.curd.example.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +24,17 @@ import spring.tutor.app.curd.example.service.EmployeeService;
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
+
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping("/employees") 
+	/*
+	 * @Autowired private ValidateJsonSchema schema;
+	 * 
+	 * @Autowired private EmployeeSchemaValidator employeeSchemaValidator;
+	 */
+	
+	@GetMapping("/employees")
 	public List<Employees> getAllEmployees() {
 		return employeeService.findAll();
 	}
@@ -35,13 +45,26 @@ public class EmployeeController {
 		return employeeService.findById(employeeId);
 	}
 
+	/*
+	 * @PostMapping("/createemp") public Employees createEmployee(@RequestBody
+	 * JsonNode jsonNode) throws Exception { if
+	 * (employeeSchemaValidator.validateJson(jsonNode).isEmpty()) throw new
+	 * Exception("JSON validation error"); return employeeService.save(null); }
+	 */
+
 	@PostMapping("/createemp")
-	public Employees createEmployee(@RequestBody Employees employees) {
+	public Employees createEmployee(@RequestBody @Valid Employees employees, BindingResult result) throws Exception {
+		
+		if (result.hasErrors()) {
+			System.out.println("Validation Failed");
+			return null;
+        }
 		return employeeService.save(employees);
 	}
-	
+
+
 	@PostMapping("/createemps")
-	public Iterable<Employees> createEmployees(@RequestBody List<Employees> employees) {
+	public Iterable<Employees> createEmployees(@Valid @RequestBody List<Employees> employees) throws Exception {
 		return employeeService.saveAll(employees);
 	}
 
@@ -59,4 +82,9 @@ public class EmployeeController {
 		return employeeService.deleteEmployee(employeeId);
 
 	}
+
+	/*
+	 * @PostMapping("/validate") public String validateEvent( @RequestBody JsonNode
+	 * jsonNode ){ return schemaValidatorService.validateJson(jsonNode); }
+	 */
 }

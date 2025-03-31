@@ -10,14 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import lombok.extern.slf4j.Slf4j;
 import spring.tutor.app.curd.example.exception.ResourceNotFoundException;
 import spring.tutor.app.curd.example.model.Employees;
 import spring.tutor.app.curd.example.repository.EmployeeRepository;
 
+@Slf4j
 @Service
 public class EmployeeService {
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
 
 	public List<Employees> findAll() {
 		return employeeRepository.findAll();
@@ -32,7 +36,7 @@ public class EmployeeService {
 	public Employees save(Employees employee) {
 		return employeeRepository.save(employee);
 	}
-	
+
 	public Iterable<Employees> saveAll(List<Employees> employee) {
 		return employeeRepository.saveAll(employee);
 	}
@@ -46,7 +50,7 @@ public class EmployeeService {
 		employee.setLastName(employeeDetails.getLastName());
 		employee.setFirstName(employeeDetails.getFirstName());
 		employee.setAge(employeeDetails.getAge());
-		
+
 		final Employees updatedEmployee = employeeRepository.save(employee);
 		return ResponseEntity.ok(updatedEmployee);
 
@@ -58,7 +62,7 @@ public class EmployeeService {
 
 		employeeRepository.delete(employee);
 		Map<String, Boolean> response = new HashMap<>();
-		response.put("deleted", Boolean.TRUE);
+		response.put("Deleted", Boolean.TRUE);
 		return response;
 	}
 }
